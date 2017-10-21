@@ -1,0 +1,71 @@
+filename = 'HW6.xlsx';
+T = readtable(filename);
+T.time = datetime(T.time,'ConvertFrom','excel');
+date=datetime(table2array(T(:,1)));
+logy16= table2array(T(:,7));
+logh16=table2array(T(:,8));
+logi16=table2array(T(:,9));
+logc16=table2array(T(:,10));
+logw16=table2array(T(:,11));
+logy91= table2array(T(1:179,7));
+logh91=table2array(T(1:179,8));
+logi91=table2array(T(1:179,9));
+logc91=table2array(T(1:179,10));
+logw91=table2array(T(1:179,11));
+w=1600;
+[hpy16,desvabsy16] = hpfilter(logy16,w);
+[hph16,desvabsh16] = hpfilter(logh16,w);
+[hpi16,desvabsi16] = hpfilter(logi16,w);
+[hpc16,desvabsc16] = hpfilter(logc16,w);
+[hpw16,desvabsw16] = hpfilter(logw16,w);
+[hpy91,desvabsy91] = hpfilter(logy91,w);
+[hph91,desvabsh91] = hpfilter(logh91,w);
+[hpi91,desvabsi91] = hpfilter(logi91,w);
+[hpc91,desvabsc91] = hpfilter(logc91,w);
+[hpw91,desvabsw91] = hpfilter(logw91,w);
+
+cy16=logy16-hpy16;
+ch16=logh16-hph16;
+ci16=logi16-hpi16;
+cc16=logc16-hpc16;
+cw16=logw16-hpw16;
+cy91=logy91-hpy91;
+ch91=logh91-hph91;
+ci91=logi91-hpi91;
+cc91=logc91-hpc91;
+cw91=logw91-hpw91;
+
+correlation_h16=corr(ch16,cy16);
+correlation_i16=corr(ci16,cy16);
+correlation_c16=corr(cc16,cy16);
+correlation_w16=corr(cw16,cy16);
+correlation_hw16=corr(cw16,ch16);
+correlation_h91=corr(ch91,cy91);
+correlation_i91=corr(ci91,cy91);
+correlation_c91=corr(cc91,cy91);
+correlation_w91=corr(cw91,cy91);
+correlation_hw91=corr(cw91,ch91);
+
+std_y16=std(cy16);
+std_h16=std(ch16);
+std_i16=std(ci16);
+std_c16=std(cc16);
+std_w16=std(cw16);
+std_y91=std(cy91);
+std_h91=std(ch91);
+std_i91=std(ci91);
+std_c91=std(cc91);
+std_w91=std(cw91);
+
+
+
+vol_h16=std(ch16)/std(cy16);
+vol_i16=std(ci16)/std(cy16);
+vol_c16=std(cc16)/std(cy16);
+vol_w16=std(cw16)/std(cy16);
+vol_hw16=std(ch16)/std(cw16);
+vol_h91=std(ch91)/std(cy91);
+vol_i91=std(ci91)/std(cy91);
+vol_c91=std(cc91)/std(cy91);
+vol_w91=std(cw91)/std(cy91);
+vol_hw91=std(ch91)/std(cw91);
